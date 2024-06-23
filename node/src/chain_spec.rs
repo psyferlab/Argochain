@@ -1,52 +1,32 @@
-// This file is part of Substrate.
-
-// Copyright (C) Parity Technologies (UK) Ltd.
-// SPDX-License-Identifier: GPL-3.0-or-later WITH Classpath-exception-2.0
-
-// This program is free software: you can redistribute it and/or modify
-// it under the terms of the GNU General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
-// (at your option) any later version.
-
-// This program is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-// GNU General Public License for more details.
-
-// You should have received a copy of the GNU General Public License
-// along with this program. If not, see <https://www.gnu.org/licenses/>.
-
-//! Substrate chain configurations.
-
 use fp_evm::GenesisAccount;
 use sp_consensus_grandpa::AuthorityId as GrandpaId;
 use argochain_runtime::{
-	constants::currency::*, wasm_binary_unwrap, BabeConfig, BalancesConfig, Block, CouncilConfig,
-	DemocracyConfig, ElectionsConfig, ImOnlineConfig, IndicesConfig, MaxNominations,
-	NominationPoolsConfig, SessionConfig, SessionKeys, SocietyConfig, StakerStatus, StakingConfig,
-	SudoConfig, SystemConfig, TechnicalCommitteeConfig,GrandpaConfig,AuthorityDiscoveryConfig,EthereumConfig,
+    constants::currency::*, AuthorityDiscoveryConfig, AccountId, BabeConfig, BalancesConfig, Block, 
+    CouncilConfig, DemocracyConfig, ElectionsConfig, EthereumConfig, IndicesConfig, MaxNominations, 
+	NominationPoolsConfig, SessionConfig, SessionKeys, Signature, SocietyConfig, StakingConfig, 
+	StakerStatus, SudoConfig, SystemConfig, TechnicalCommitteeConfig, wasm_binary_unwrap,
 };
 use pallet_im_online::sr25519::AuthorityId as ImOnlineId;
-use sc_chain_spec::ChainSpecExtension;
+use sc_chain_spec::{ChainSpecExtension, ChainSpecGroup};
 use sc_service::ChainType;
 use sc_telemetry::TelemetryEndpoints;
 use serde::{Deserialize, Serialize};
 use sp_authority_discovery::AuthorityId as AuthorityDiscoveryId;
 use sp_consensus_babe::AuthorityId as BabeId;
-use sp_core::{crypto::UncheckedInto, sr25519, Pair, Public, H160, U256, storage::Storage};
+use sp_core::{crypto::UncheckedInto, sr25519, ecdsa, Pair, Public, H160, U256, storage::Storage};
 use sp_runtime::{
-	traits::{IdentifyAccount, Verify},
-	Perbill,
+    traits::{IdentifyAccount, Verify},
+    Perbill,
 };
 use std::{collections::BTreeMap, str::FromStr};
 use sc_service::Properties;
-pub use argochain_runtime::{RuntimeGenesisConfig, EVMConfig, GenesisConfig};
-pub use node_primitives::{AccountId, Balance, Signature};
-
+pub use argochain_runtime::{RuntimeGenesisConfig, EVMConfig, GrandpaConfig, ImOnlineConfig};
+pub use node_primitives::{ Balance};
+//
 type AccountPublic = <Signature as Verify>::Signer;
-
+//
 const STAGING_TELEMETRY_URL: &str = "wss://telemetry.polkadot.io/submit/";
-
+//
 /// Node `ChainSpec` extensions.
 ///
 /// Additional parameters for some Substrate core modules,
