@@ -636,8 +636,8 @@ pub fn development_config() -> ChainSpec {
 	properties.insert("tokenDecimals".into(), 18.into());
 	properties.insert("ss58Format".into(), 33.into());
 	ChainSpec::from_genesis(
-		"Argochain Development",
-		"dev",
+		"Argochain Mainnet",
+		"mainnet",
 		ChainType::Development,
 		development_config_genesis,
 		vec![],
@@ -664,8 +664,8 @@ fn local_testnet_genesis() -> RuntimeGenesisConfig {
 /// Local testnet config (multivalidator Alice + Bob)
 pub fn local_testnet_config() -> ChainSpec {
 	ChainSpec::from_genesis(
-		"ArgoChain local",
-		"argochain_local",
+		"ArgoChain Mainnet",
+		"argochain_mainnet",
 		ChainType::Local,
 		local_testnet_genesis,
 		vec![],
