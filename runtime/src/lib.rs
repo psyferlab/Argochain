@@ -48,9 +48,9 @@ use frame_support::{
     },
     BoundedVec, PalletId, RuntimeDebug,
 };
-use sp_io::logging::log;
+
 //Hello
-use frame_system::pallet_prelude::*;
+
 use sp_runtime::traits::Saturating; 
 use frame_system::{
     limits::{BlockLength, BlockWeights},
@@ -80,15 +80,15 @@ use sp_inherents::{CheckInherentsResult, InherentData};
 #[cfg(feature = "with-paritydb-weights")]
 use frame_support::weights::constants::ParityDbWeight as RuntimeDbWeight;
 // Frontier
-use fp_account::EthereumSignature;
+
 use fp_evm::weight_per_gas;
 use fp_rpc::TransactionStatus;
 use fp_self_contained;
 //
 use pallet_ethereum::{Call::transact, PostLogContent, Transaction as EthereumTransaction};
 use pallet_evm::{
-    Account as EVMAccount, EnsureAccountId20, EnsureAddressNever, EnsureAddressRoot, FeeCalculator,
-    GasWeightMapping, HashedAddressMapping, IdentityAddressMapping, Runner,
+    Account as EVMAccount, EnsureAddressNever, EnsureAddressRoot, FeeCalculator,
+    GasWeightMapping, HashedAddressMapping, Runner,
 };
 // use account::AccountId20;
 use pallet_base_fee;
@@ -110,11 +110,10 @@ parameter_types! {
 
 use sp_runtime::{
     create_runtime_str,
-    curve::PiecewiseLinear,
     generic, impl_opaque_keys,
     traits::{
         self, AccountIdConversion, BlakeTwo256, Block as BlockT, Bounded, ConvertInto,
-        DispatchInfoOf, Dispatchable, IdentifyAccount, IdentityLookup, NumberFor, One, OpaqueKeys,
+        DispatchInfoOf, Dispatchable, IdentifyAccount, NumberFor, One, OpaqueKeys,
         PostDispatchInfoOf, SaturatedConversion, StaticLookup, UniqueSaturatedInto, Verify,
     },
     transaction_validity::{
@@ -277,6 +276,8 @@ parameter_types! {
         .avg_block_initialization(AVERAGE_ON_INITIALIZE_RATIO)
         .build_or_panic();
     pub MaxCollectivesProposalWeight: Weight = Perbill::from_percent(50) * RuntimeBlockWeights::get().max_block;
+    pub const SS58Prefix: u8 = 42;
+
 }
 
 const_assert!(NORMAL_DISPATCH_RATIO.deconstruct() >= AVERAGE_ON_INITIALIZE_RATIO.deconstruct());
@@ -302,7 +303,7 @@ impl frame_system::Config for Runtime {
     type OnNewAccount = ();
     type OnKilledAccount = ();
     type SystemWeightInfo = frame_system::weights::SubstrateWeight<Runtime>;
-    type SS58Prefix = ConstU16<42>;
+    type SS58Prefix = SS58Prefix;
     type OnSetCode = ();
     type MaxConsumers = ConstU32<16>;
 }
